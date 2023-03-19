@@ -3,6 +3,7 @@ package com.example.projet_e5;
 import android.os.Build;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -27,15 +28,21 @@ public class Thread_API extends Thread{
 
     public JSONObject obj;
 
+    public JSONArray obj_array;
+
     public boolean res;
 
     public void run() {
         Set_Url_Api(this.arraylist);
-        this.res = open_http_connection();
+        try {
+            this.res = open_http_connection();
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
-    public Boolean open_http_connection(){
+    public Boolean open_http_connection() throws JSONException {
         String result = "",line;
         BufferedReader reader_in;
         int code_reponse;
@@ -63,15 +70,24 @@ public class Thread_API extends Thread{
                     result += line;
                 }
 
-                //JSONArray array = new JSONArray(result);
-                this.values = new JSONObject(result);
-                this.obj = this.values;
+                if (String.valueOf(result.charAt(0)).equals("{")){
+                    this.values = new JSONObject(result);
+                    this.obj = this.values;
+                }else{
+
+                    this.obj_array = new JSONArray(result);
+
+                }
+
+
+
                 return true;
             }else {
                 return false;
             }
 
         }catch (Exception e){
+
             System.out.println("error connection :" + e);
             //e.printStackTrace();
             return false;
@@ -81,6 +97,10 @@ public class Thread_API extends Thread{
 
     public JSONObject get_Values(){
         return this.values;
+    }
+
+    public JSONArray getObj_array(){
+        return this.obj_array;
     }
 
     public void set_array_list(ArrayList list){

@@ -28,7 +28,14 @@ public class UserActivity extends AppCompatActivity {
         button_log_out.setOnClickListener(v-> log_out());
         Intent intent = getIntent();
         String id = intent.getStringExtra("id");
-        back_Home(id);
+        String type = intent.getStringExtra("type");
+        back_Home(id,type);
+        if (type.equals("1")){
+            delect_user("clients",id);
+        }else {
+            delect_user("docteurs",id);
+        }
+
     }
 
     protected void log_out(){
@@ -49,16 +56,33 @@ public class UserActivity extends AppCompatActivity {
         t_user_name.setText(user_name);
 
         Thread_API api = new Thread_API();
-        String function_name = "get_By_value",
-                token = "Jiojio000608.",
-                table_name = "clients",
-                values_send = "id,"+id;
-        ArrayList<String> list_values = new ArrayList<>();
-        list_values.add(0,function_name);
-        list_values.add(1,token);
-        list_values.add(2,table_name);
-        list_values.add(3,values_send);
-        api.set_array_list(list_values);
+        Intent intent_get = getIntent();
+        String type = intent_get.getStringExtra("type");
+        String id_user = intent_get.getStringExtra("id");
+        if (type.equals("0")){
+            String function_name = "get_By_value",
+                    token = "Jiojio000608.",
+                    table_name = "docteurs",
+                    values_send = "id,"+id_user;
+            ArrayList<String> list_values = new ArrayList<>();
+            list_values.add(0,function_name);
+            list_values.add(1,token);
+            list_values.add(2,table_name);
+            list_values.add(3,values_send);
+            api.set_array_list(list_values);
+        }else {
+            String function_name = "get_By_value",
+                    token = "Jiojio000608.",
+                    table_name = "clients",
+                    values_send = "id,"+id_user;
+            ArrayList<String> list_values = new ArrayList<>();
+            list_values.add(0,function_name);
+            list_values.add(1,token);
+            list_values.add(2,table_name);
+            list_values.add(3,values_send);
+            api.set_array_list(list_values);
+        }
+
         api.start();
         try{
             api.join();
@@ -67,6 +91,7 @@ public class UserActivity extends AppCompatActivity {
         }
 
         JSONObject res = api.get_Values();
+        System.out.println(res);
         @SuppressLint("CutPasteId") TextView tv_np = findViewById(R.id.tv_nomprenom);
         @SuppressLint("CutPasteId") TextView tv_email = findViewById(R.id.tv_email);
         @SuppressLint("CutPasteId") TextView tv_naissance = findViewById(R.id.tv_naissance);
@@ -75,7 +100,7 @@ public class UserActivity extends AppCompatActivity {
         try{
             tv_np.setText(res.getString("nom") + " " + res.getString("prenom"));
             tv_email.setText(res.getString("email"));
-            tv_naissance.setText(res.getString("date_de_naissance"));
+            //tv_naissance.setText(res.getString("date_naissance"));
             tv_address.setText(res.getString("address"));
             tv_tele.setText(res.getString("tele"));
         }catch (Exception e){
@@ -92,13 +117,45 @@ public class UserActivity extends AppCompatActivity {
         toast.show();
     }
 
-    protected void back_Home(String id){
+    protected void back_Home(String id,String type){
         ImageButton button_home = findViewById(R.id.button_homeuserpage);
 
         button_home.setOnClickListener(v -> {
             Intent intent = new Intent();
             intent.setClass(UserActivity.this,MainActivity.class);
             intent.putExtra("id",id);
+            intent.putExtra("type",type);
+            startActivity(intent);
+        });
+    }
+
+    protected void delect_user(String table_name,String id){
+        Button button_del = findViewById(R.id.button_delete);
+        button_del.setOnClickListener(v->{
+            Thread_API api = new Thread_API();
+            String function_name = "delete_user",
+                    token = "Jiojio000608.",
+                    t = table_name,
+                    values_send = id;
+
+            ArrayList list = new ArrayList<>();
+            list.add(0,function_name);
+            list.add(1,token);
+            list.add(2,t);
+            list.add(3,values_send);
+
+            api.set_array_list(list);
+
+            api.start();
+            try {
+                api.join();
+            } catch (InterruptedException e) {
+                Show_notification("error");
+            }
+
+            Intent intent = new Intent();
+            intent.putExtra("id","null");
+            intent.setClass(UserActivity.this,MainActivity.class);
             startActivity(intent);
         });
     }

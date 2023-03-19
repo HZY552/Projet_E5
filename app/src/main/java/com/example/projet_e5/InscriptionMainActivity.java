@@ -4,9 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,13 +25,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class InscriptionMainActivity extends AppCompatActivity {
-
+    private ImageButton button_add;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e(this.getClass().getName(),"onCreate");
         setContentView(R.layout.activity_inscription_main);
+        button_add = findViewById(R.id.ib_add);
         go_home();
         inscription();
+        check_box();
+        add_image();
     }
 
     protected void go_home(){
@@ -138,4 +148,57 @@ public class InscriptionMainActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(context,text,duration);
         toast.show();
     }
+
+    protected void check_box(){
+        CheckBox cb = findViewById(R.id.cb_medecin);
+        cb.setOnClickListener(v->{
+            if (cb.isChecked()){
+                Button button_inscription = findViewById(R.id.button_inscription);
+                TextView ed_nom = findViewById(R.id.ed_nom);
+                TextView ed_prenom = findViewById(R.id.ed_prenom);
+                TextView ed_password = findViewById(R.id.ed_password);
+                TextView ed_password_confirmer = findViewById(R.id.ed_passwordconfirmer);
+                TextView ed_email = findViewById(R.id.ed_email);
+                TextView ed_tele = findViewById(R.id.ed_tele);
+                TextView ed_date_naissance = findViewById(R.id.ed_naissance);
+                TextView ed_address = findViewById(R.id.ed_address);
+                button_inscription.setOnClickListener(view->{
+                    Intent intent = new Intent();
+                    intent.putExtra("nom",ed_nom.getText().toString());
+                    intent.putExtra("prenom",ed_prenom.getText().toString());
+                    intent.putExtra("password",ed_password.getText().toString());
+                    intent.putExtra("email",ed_email.getText().toString());
+                    intent.putExtra("tele",ed_tele.getText().toString());
+                    intent.putExtra("naissance",ed_date_naissance.getText().toString());
+                    intent.putExtra("address",ed_address.getText().toString());
+
+                    intent.setClass(InscriptionMainActivity.this,Inscription_pro_MainActivity.class);
+                    startActivity(intent);
+                });
+            }
+        });
+    }
+
+    protected void add_image(){
+        ImageButton button_add = findViewById(R.id.ib_add);
+        button_add.setOnClickListener(v->{
+            Intent intent = new Intent(Intent.ACTION_PICK,null);
+            intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
+            startActivityForResult(intent,2);
+        });
+    }
+
+    protected void onActivityResult(int requestCode,int resultCode,Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        if(requestCode == 2){
+            Log.e(this.getClass().getName(),"Result:" + data.toString());
+            if (data != null){
+                Uri uri = data.getData();
+                button_add.setImageURI(uri);
+                Log.e(this.getClass().getName(),"Uri:"+String.valueOf(uri));
+            }
+        }
+    }
+
+
 }

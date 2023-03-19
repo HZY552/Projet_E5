@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -86,8 +87,10 @@ public class LoginMainActivity extends AppCompatActivity {
                     JSONObject res = get_UserfromApi();
                     if (res != null){
                         String id = res.getString("id");
+                        String type = res.getString("type");
                         Intent intent = new Intent(LoginMainActivity.this,MainActivity.class);
                         intent.putExtra("id",id);
+                        intent.putExtra("type",type);
                         startActivity(intent);
                     }else{
                         Show_notification("utilisateur n'existe pas ou Mot de passe incorrect ! ");
@@ -103,23 +106,36 @@ public class LoginMainActivity extends AppCompatActivity {
     }
 
     protected JSONObject get_UserfromApi() throws InterruptedException {
-        Boolean res = false;
-
-        String function_name = "login",
-                token = "Jiojio000608.",
-                table_name = "clients",
-                values_send = getUsername() + "," + getPassword();
-        ;
+        CheckBox cb_login = findViewById(R.id.checkBox_docteur);
 
         Thread_API api = new Thread_API();
-        ArrayList<String> list_values = new ArrayList<String>();
-        list_values.add(0,function_name);
-        list_values.add(1,token);
-        list_values.add(2,table_name);
-        list_values.add(3,values_send);
-        api.set_array_list(list_values);
 
+        if (cb_login.isChecked()){
+            String function_name = "login",
+                    token = "Jiojio000608.",
+                    table_name = "docteurs",
+                    values_send = getUsername() + "," + getPassword();
 
+            ArrayList<String> list_values = new ArrayList<String>();
+            list_values.add(0,function_name);
+            list_values.add(1,token);
+            list_values.add(2,table_name);
+            list_values.add(3,values_send);
+            api.set_array_list(list_values);
+
+        }else{
+            String function_name = "login",
+                    token = "Jiojio000608.",
+                    table_name = "clients",
+                    values_send = getUsername() + "," + getPassword();
+
+            ArrayList<String> list_values = new ArrayList<String>();
+            list_values.add(0,function_name);
+            list_values.add(1,token);
+            list_values.add(2,table_name);
+            list_values.add(3,values_send);
+            api.set_array_list(list_values);
+        }
         api.start();
         api.join();
 
@@ -175,5 +191,7 @@ public class LoginMainActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(context,text,duration);
         toast.show();
     }
+
+
 
 }

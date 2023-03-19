@@ -198,14 +198,20 @@
         app:layout_constraintTop_toBottomOf="@+id/cb_medecin"
         tools:ignore="VisualLintBounds" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="153dp"
-        android:layout_height="138dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
+    <ImageButton
+        android:id="@+id/ib_add"
+        android:layout_width="141dp"
+        android:layout_height="98dp"
+        android:layout_marginStart="132dp"
+        android:layout_marginTop="56dp"
+        android:background="@drawable/btn_selector"
+        android:contentDescription="@string/app_addImage"
+        android:filterTouchesWhenObscured="false"
+        android:hapticFeedbackEnabled="false"
+        android:scaleType="fitCenter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_inscription" />
+        app:srcCompat="@android:drawable/ic_input_add"
+        tools:ignore="ImageContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

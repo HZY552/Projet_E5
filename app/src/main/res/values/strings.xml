@@ -23,7 +23,14 @@
     <string name="app_mdp_oublie">mdp_oublie</string>
     <string name="app_change_mdp">Changer le mot de passe</string>
     <string name="app_title1">Trouvez un rendez-vous avec</string>
-    <string name="app_title2">une médecin</string>
+    <string name="app_title2">un médecin</string>
     <string name="app_connecter">Se connecter</string>
     <string name="title_img">title_img</string>
+    <string name="app_specialiste">spécialiste</string>
+    <string name="app_horaires">Horaires</string>
+    <string name="inscription_pro">inscription_pro</string>
+    <string name="app_delete">Supprimer</string>
+    <string name="app_patients">Patients</string>
+    <string name="app_title_patients">Mes Patients</string>
+    <string name="app_addImage">AddImage</string>
 </resources>
