@@ -11,25 +11,22 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Projet_E5"
+        android:theme="@style/Theme.Projet_E5_version_final"
         tools:targetApi="31">
         <activity
-            android:name=".MainPatientsActivity"
+            android:name=".RDVActivity"
             android:exported="false" />
         <activity
-            android:name=".Inscription_pro_MainActivity"
+            android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".Mdpoublie"
+            android:name=".MonCompteActivity"
             android:exported="false" />
         <activity
-            android:name=".UserActivity"
+            android:name=".InscriptionActivity"
             android:exported="false" />
         <activity
-            android:name=".InscriptionMainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginMainActivity"
+            android:name=".ParametresActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

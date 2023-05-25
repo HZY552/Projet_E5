@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/blue">
+
+
+    <item
+        android:id="@+id/menu_se_connecter"
+        android:icon="@drawable/baseline_account_circle_24"
+        android:background="@color/blue"
+        android:iconTint="@color/white"
+        android:textStyle="bold"
+        android:title="SE CONNECTER "
+        tools:ignore="HardcodedText" />
+    <item
+        android:id="@+id/menu_inscription"
+        android:icon="@drawable/baseline_how_to_reg_24"
+        android:title="S\'INSCRIRE"
+        tools:ignore="HardcodedText" />
+    <item
+        android:id="@+id/menu_paramétres"
+        android:icon="@drawable/baseline_miscellaneous_services_24"
+        android:title="PARAMETRES"
+        tools:ignore="HardcodedText" />
+
+
+
+</menu>

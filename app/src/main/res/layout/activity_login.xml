@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/teal_200"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UselessLeaf">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:paddingTop="40dp"
+            android:paddingBottom="40dp"
+            app:srcCompat="@drawable/user_logo"
+            tools:ignore="ImageContrastCheck" />
+
+        <EditText
+            android:id="@+id/edtext_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/app_email"
+            android:background="@drawable/custom_textview"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:text="houzeyu7@gmail.com"
+            android:textColorHint="#78909C"
+            tools:ignore="TextContrastCheck,TextFields" />
+
+        <EditText
+            android:id="@+id/edtext_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="30dp"
+            android:autofillHints=""
+            android:background="@drawable/custom_textview"
+            android:ems="10"
+            android:hint="@string/app_password"
+            android:inputType="textPassword"
+            android:minHeight="48dp"
+            android:text="Jiojio000608."
+            android:textColorHint="#78909C"
+            tools:ignore="TextContrastCheck" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_login"
+            style="@style/MyButtonStyle"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:fontFamily="@font/k"
+            android:text="@string/Login"
+            android:textSize="16sp"
+            />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="@string/login_mot_de_passe_oublie"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            tools:ignore="TextContrastCheck" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_inscription_l"
+            style="@style/MyButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_marginTop="20dp"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:text="@string/Inscription"
+            android:fontFamily="@font/k"
+            tools:ignore="TouchTargetSizeCheck" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

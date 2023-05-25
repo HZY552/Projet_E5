@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_mon_compte"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="SpeakableTextPresentCheck">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:ignore="ExtraText,UselessLeaf">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="81dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                tools:ignore="UselessParent">
+
+                <ImageView
+                    android:id="@+id/imageView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="85dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    app:srcCompat="@drawable/baseline_admin_panel_settings_24"
+                    tools:ignore="ContentDescription,VisualLintBounds" />
+
+                <TextView
+                    android:id="@+id/textmoncompte"
+                    android:layout_width="wrap_content"
+                    android:layout_height="87dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="fill"
+                    android:paddingTop="20dp"
+                    android:paddingRight="100dp"
+                    android:paddingBottom="10dp"
+                    android:text="Votre sante .vos donnees"
+                    android:textAlignment="center"
+                    android:textColor="@color/blue"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,SpUsage,TextContrastCheck,TextSizeCheck,VisualLintBounds" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_mp_mc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="25dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="fill"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:text="@string/app_profil"
+                android:textColor="@color/blue"
+                android:textSize="20sp"
+                app:drawableLeftCompat="@drawable/baseline_account_circle_24" />
+
+            <EditText
+                android:id="@+id/ed_id_mc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="25dp"
+                android:autofillHints=""
+                android:enabled="false"
+                android:fontFamily="@font/adamina"
+                android:minHeight="48dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:text="Identité"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                tools:ignore="TextSizeCheck" />
+
+            <TextView
+                android:id="@+id/tv_tel_mc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="25dp"
+                android:drawableLeft="@drawable/baseline_call_24"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="fill"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:text="TEl"
+                android:textColor="@color/blue"
+                android:textSize="20sp"
+                tools:ignore="HardcodedText,RtlHardcoded,SpUsage,TextSizeCheck,TextSizeCheck,UseCompatTextViewDrawableXml" />
+
+            <EditText
+                android:id="@+id/ed_tele_mc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="25dp"
+                android:autofillHints=""
+                android:enabled="false"
+                android:inputType="textPersonName"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:text="Name"
+                tools:ignore="HardcodedText,LabelFor,DuplicateSpeakableTextCheck,VisualLintTextFieldSize" />
+
+            <TextView
+                android:id="@+id/tv_em_mc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="25dp"
+                android:drawableLeft="@drawable/baseline_email_24"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="fill"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:text="Email"
+                android:textColor="@color/blue"
+                android:textSize="20sp"
+                tools:ignore="HardcodedText,RtlHardcoded,SpUsage,TextSizeCheck,UseCompatTextViewDrawableXml,TextContrastCheck" />
+
+            <EditText
+                android:id="@+id/ed_email_mc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="25dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:enabled="false"
+                android:inputType="textPersonName"
+                android:minHeight="48dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:text="Name"
+                tools:ignore="HardcodedText,LabelFor,VisualLintTextFieldSize" />
+
+            <TextView
+                android:id="@+id/tv_mdp_mc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="25dp"
+                android:drawableLeft="@drawable/baseline_lock_24"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="fill"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:text="Address"
+                android:textColor="#5E35B1"
+                android:textSize="20sp"
+                tools:ignore="HardcodedText,RtlHardcoded,SpUsage,TextSizeCheck,UseCompatTextViewDrawableXml" />
+
+            <EditText
+                android:id="@+id/ed_address_mc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="25dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:enabled="false"
+                android:inputType="textPersonName"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:text="Name"
+                tools:ignore="HardcodedText,LabelFor,VisualLintTextFieldSize" />
+
+            <Button
+                android:id="@+id/btn_change_mc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:text="@string/app_change_profil"
+                android:textColor="#F9FBE7"
+                tools:ignore="HardcodedText,VisualLintButtonSize" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</androidx.drawerlayout.widget.DrawerLayout>
+
