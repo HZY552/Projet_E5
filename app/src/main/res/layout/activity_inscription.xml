@@ -7,212 +7,229 @@
     android:layout_gravity="center"
     tools:context=".InscriptionActivity">
 
-    <ScrollView
+    <FrameLayout
+        android:id="@+id/fragment_def"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/teal_200"
-        android:contentDescription="@string/Inscription"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        android:background="@color/white"
+        tools:context=".inscription_fragment">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="50dp">
+            android:layout_height="match_parent"
+            android:background="@color/teal_200"
+            android:contentDescription="@string/Inscription"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
-            <TextView
-                android:id="@+id/textView"
-                style="@style/title_tv"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/adamina"
-                android:paddingTop="30dp"
-                android:paddingBottom="30dp"
-                android:text="@string/Inscription"
-                android:textAlignment="center"
-                android:textAppearance="@style/DateTextAppearance"
-                android:textColor="@color/blue"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="50dp">
 
-            <EditText
-                android:id="@+id/edtext_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                android:autofillHints=""
-                android:background="@drawable/edittext_selector"
-                android:ems="10"
-                android:hint="@string/app_email"
-                android:inputType="textPersonName"
-                android:minHeight="48dp"
-                android:text="houzeyu7@gmail.com"
-                android:textAlignment="gravity"
-                android:textColorHint="#78909C"
-                tools:ignore="HardcodedText,TextContrastCheck,TextFields" />
+                <TextView
+                    android:id="@+id/textView"
+                    style="@style/title_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/adamina"
+                    android:paddingTop="30dp"
+                    android:paddingBottom="30dp"
+                    android:text="@string/Inscription"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/DateTextAppearance"
+                    android:textColor="@color/blue"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/edtext_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="30dp"
-                android:autofillHints=""
-                android:background="@drawable/edittext_selector"
-                android:ems="10"
-                android:hint="@string/mot_de_passe"
-                android:inputType="textPassword"
-                android:minHeight="48dp"
-                android:text="Jiojio000608."
-                android:textAlignment="gravity"
-                android:textColorHint="#78909C"
-                tools:ignore="TextContrastCheck" />
+                <EditText
+                    android:id="@+id/edtext_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:autofillHints=""
+                    android:background="@drawable/edittext_selector"
+                    android:ems="10"
+                    android:hint="@string/app_email"
+                    android:inputType="textPersonName"
+                    android:minHeight="48dp"
+                    android:text="houzeyu7@gmail.com"
+                    android:textAlignment="gravity"
+                    android:textColorHint="#78909C"
+                    tools:ignore="HardcodedText,TextContrastCheck,TextFields" />
 
-            <EditText
-                android:id="@+id/confirmer_mot_de_passe"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="30dp"
-                android:autofillHints=""
-                android:background="@drawable/edittext_selector"
-                android:ems="10"
-                android:hint="@string/confirmer_mot_de_passe"
-                android:inputType="textPassword"
-                android:minHeight="48dp"
-                android:text="Jiojio000608."
-                android:textAlignment="gravity"
-                tools:ignore="LabelFor" />
+                <EditText
+                    android:id="@+id/edtext_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="30dp"
+                    android:autofillHints=""
+                    android:background="@drawable/edittext_selector"
+                    android:ems="10"
+                    android:hint="@string/mot_de_passe"
+                    android:inputType="textPassword"
+                    android:minHeight="48dp"
+                    android:text="Jiojio000608."
+                    android:textAlignment="gravity"
+                    android:textColorHint="#78909C"
+                    tools:ignore="TextContrastCheck" />
 
-            <EditText
-                android:id="@+id/nom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="30dp"
-                android:autofillHints=""
-                android:background="@drawable/edittext_selector"
-                android:ems="10"
-                android:hint="@string/nom"
-                android:inputType="text"
-                android:minHeight="48dp"
-                android:text="HOU"
-                android:textAlignment="gravity"
-                android:textColorHint="#757575"
-                tools:ignore="LabelFor,TextContrastCheck" />
+                <EditText
+                    android:id="@+id/confirmer_mot_de_passe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="30dp"
+                    android:autofillHints=""
+                    android:background="@drawable/edittext_selector"
+                    android:ems="10"
+                    android:hint="@string/confirmer_mot_de_passe"
+                    android:inputType="textPassword"
+                    android:minHeight="48dp"
+                    android:text="Jiojio000608."
+                    android:textAlignment="gravity"
+                    tools:ignore="LabelFor" />
 
-            <EditText
-                android:id="@+id/prenom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="30dp"
-                android:autofillHints=""
-                android:background="@drawable/edittext_selector"
-                android:ems="10"
-                android:hint="@string/prenom"
-                android:inputType="text"
-                android:minHeight="48dp"
-                android:text="ZEYU"
-                android:textAlignment="gravity"
-                tools:ignore="LabelFor" />
+                <EditText
+                    android:id="@+id/nom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="30dp"
+                    android:autofillHints=""
+                    android:background="@drawable/edittext_selector"
+                    android:ems="10"
+                    android:hint="@string/nom"
+                    android:inputType="text"
+                    android:minHeight="48dp"
+                    android:text="HOU"
+                    android:textAlignment="gravity"
+                    android:textColorHint="#757575"
+                    tools:ignore="LabelFor,TextContrastCheck" />
 
-            <EditText
-                android:id="@+id/numero_de_tel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="30dp"
-                android:autofillHints=""
-                android:background="@drawable/edittext_selector"
-                android:ems="10"
-                android:hint="@string/numéro_de_telephone"
-                android:inputType=""
-                android:minHeight="48dp"
-                android:text="06 95 86 72 74"
-                android:textAlignment="gravity"
-                tools:ignore="LabelFor,TouchTargetSizeCheck,TextContrastCheck" />
+                <EditText
+                    android:id="@+id/prenom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="30dp"
+                    android:autofillHints=""
+                    android:background="@drawable/edittext_selector"
+                    android:ems="10"
+                    android:hint="@string/prenom"
+                    android:inputType="text"
+                    android:minHeight="48dp"
+                    android:text="ZEYU"
+                    android:textAlignment="gravity"
+                    tools:ignore="LabelFor" />
 
-            <EditText
-                android:id="@+id/datte_d_anniversaire"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="30dp"
-                android:autofillHints=""
-                android:background="@drawable/edittext_selector"
-                android:ems="10"
-                android:hint="@string/date_de_naissance"
-                android:inputType="text"
-                android:minHeight="48dp"
-                android:text="1977-11-11"
-                android:textAlignment="gravity"
-                tools:ignore="LabelFor" />
+                <EditText
+                    android:id="@+id/numero_de_tel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="30dp"
+                    android:autofillHints=""
+                    android:background="@drawable/edittext_selector"
+                    android:ems="10"
+                    android:hint="@string/numéro_de_telephone"
+                    android:inputType=""
+                    android:minHeight="48dp"
+                    android:text="06 95 86 72 74"
+                    android:textAlignment="gravity"
+                    tools:ignore="LabelFor,TouchTargetSizeCheck,TextContrastCheck" />
 
-            <Spinner
-                android:id="@+id/genre"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/edittext_selector"
-                android:minHeight="48dp"
-                android:spinnerMode="dialog"
-                android:textAlignment="gravity"
-                tools:ignore="ObsoleteLayoutParam,SpeakableTextPresentCheck" />
+                <EditText
+                    android:id="@+id/datte_d_anniversaire"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="30dp"
+                    android:autofillHints=""
+                    android:background="@drawable/edittext_selector"
+                    android:ems="10"
+                    android:hint="@string/date_de_naissance"
+                    android:inputType="text"
+                    android:minHeight="48dp"
+                    android:text="1977-11-11"
+                    android:textAlignment="gravity"
+                    tools:ignore="LabelFor" />
 
-            <EditText
-                android:id="@+id/adresse"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="30dp"
-                android:autofillHints=""
-                android:background="@drawable/edittext_selector"
-                android:ems="10"
-                android:hint="@string/adresse"
-                android:inputType="text"
-                android:minHeight="48dp"
-                android:text="733 rue nsl spk 75013 paris"
-                android:textAlignment="gravity"
-                tools:ignore="LabelFor" />
+                <Spinner
+                    android:id="@+id/genre"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/edittext_selector"
+                    android:minHeight="48dp"
+                    android:spinnerMode="dialog"
+                    android:textAlignment="gravity"
+                    tools:ignore="ObsoleteLayoutParam,SpeakableTextPresentCheck" />
 
-            <CheckBox
-                android:id="@+id/checkBox_doc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:foregroundGravity="center"
-                android:gravity="center"
-                android:text="@string/app_docteur" />
+                <EditText
+                    android:id="@+id/adresse"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="30dp"
+                    android:autofillHints=""
+                    android:background="@drawable/edittext_selector"
+                    android:ems="10"
+                    android:hint="@string/adresse"
+                    android:inputType="text"
+                    android:minHeight="48dp"
+                    android:text="733 rue nsl spk 75013 paris"
+                    android:textAlignment="gravity"
+                    tools:ignore="LabelFor" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_inscription"
-                style="@style/button_rechercher"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/k"
-                android:paddingTop="0dp"
-                android:paddingBottom="0dp"
-                android:text="@string/Login"
-                android:textSize="16sp"
-                tools:ignore="VisualLintBounds" />
+                <CheckBox
+                    android:id="@+id/checkBox_doc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:foregroundGravity="center"
+                    android:gravity="center"
+                    android:text="@string/app_docteur" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_inscription"
+                    style="@style/button_rechercher"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/k"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="@string/Login"
+                    android:textSize="16sp"
+                    tools:ignore="VisualLintBounds" />
 
 
-        </LinearLayout>
-    </ScrollView>
+            </LinearLayout>
+        </ScrollView>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

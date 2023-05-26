@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/teal_200"
+        android:background="@color/white"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +37,6 @@
             android:autofillHints=""
             android:ems="10"
             android:hint="@string/app_email"
-            android:background="@drawable/custom_textview"
             android:inputType="textPersonName"
             android:minHeight="48dp"
             android:text="houzeyu7@gmail.com"
@@ -51,7 +50,6 @@
             android:layout_gravity="center"
             android:layout_marginBottom="30dp"
             android:autofillHints=""
-            android:background="@drawable/custom_textview"
             android:ems="10"
             android:hint="@string/app_password"
             android:inputType="textPassword"
@@ -62,16 +60,15 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_login"
-            style="@style/MyButtonStyle"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/k"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
-            android:fontFamily="@font/k"
             android:text="@string/Login"
-            android:textSize="16sp"
-            />
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/textView3"
@@ -80,7 +77,7 @@
             android:layout_marginTop="50dp"
             android:text="@string/login_mot_de_passe_oublie"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="@color/gray"
             android:textSize="16sp"
             tools:ignore="TextContrastCheck" />
 
@@ -91,10 +88,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
             android:layout_marginTop="20dp"
+            android:fontFamily="@font/k"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
             android:text="@string/Inscription"
-            android:fontFamily="@font/k"
             tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

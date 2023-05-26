@@ -49,4 +49,7 @@
     <string name="app_type">Type</string>
     <string name="app_specialty">Specialty</string>
     <string name="app_change_profil">Change</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_choisissez_votre_carrière">choisissez votre carrière</string>
 </resources>

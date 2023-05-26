@@ -2,12 +2,16 @@ package com.example.projet_e5_version_final;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,13 +34,18 @@ import java.util.Arrays;
 
 public class InscriptionActivity extends AppCompatActivity {
     public static InscriptionActivity instance;
+    private boolean isFragmentContainerDisplayed = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inscription);
+
+
         InscriptionActivity.instance = this;
         TextView tv_nom = findViewById(R.id.nom);
         set_Spinner();
+
+
 
         tv_nom.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -101,13 +110,15 @@ public class InscriptionActivity extends AppCompatActivity {
                 if (password.equals(password_confirme)){
                     if (checkBox_doc.isChecked()){
 
+                        // Doctor
+
                         String values = "{email:" + email +
                                 ",password:" + password +
                                 ",first_name:" + nom +
                                 ",last_name:" + prenom +
                                 ",phone_number:" + tele +
                                 ",office_address:" + address +
-                                ",specialty:" + "null" +
+                                ",specialty:" + "11" +
                                 ",type:" + "doctor"
                                 + "}";
 
@@ -122,10 +133,18 @@ public class InscriptionActivity extends AppCompatActivity {
                         JSONObject res_obj = new JSONObject(api.get_Values());
 
                         if (res_obj.getString("res").equals("true")){
-                            Intent intent = new Intent();
-                            intent.setClass(InscriptionActivity.this,LoginActivity.class);
-                            startActivity(intent);
-                            InscriptionActivity.instance.finish();
+                            Toast.makeText(this,"User " + email + " ok",Toast.LENGTH_SHORT).show();
+
+                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+                            transaction.replace(R.id.fragment_container, new inscription_fragment());
+
+                            // Commit the transaction.
+                            transaction.commit();
+
+                            // Toggle the boolean flag.
+                            isFragmentContainerDisplayed = !isFragmentContainerDisplayed;
+
                         }else{
                             Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
                         }
@@ -151,6 +170,7 @@ public class InscriptionActivity extends AppCompatActivity {
                         JSONObject res_obj = new JSONObject(api.get_Values());
 
                         if (res_obj.getString("res").equals("true")){
+                            Toast.makeText(this,"User " + email + " ok",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent();
                             intent.setClass(InscriptionActivity.this,LoginActivity.class);
                             startActivity(intent);
@@ -219,5 +239,6 @@ public class InscriptionActivity extends AppCompatActivity {
         float density = getResources().getDisplayMetrics().density;
         return Math.round(dp * density);
     }
+
 
 }
