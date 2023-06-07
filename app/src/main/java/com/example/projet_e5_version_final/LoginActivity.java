@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.projet_e5_version_final.services.Api;
@@ -34,12 +35,23 @@ public class LoginActivity extends AppCompatActivity {
         this.rv = new Regular_validation();
 
         Button button_inscription_l = findViewById(R.id.button_inscription_l);
+        TextView tv_mdp_oublie = findViewById(R.id.tv_mdp_oublie);
 
         button_inscription_l.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setClass(LoginActivity.this,InscriptionActivity.class);
+                startActivity(intent);
+                LoginActivity.instance.finish();
+            }
+        });
+
+        tv_mdp_oublie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(LoginActivity.this,ResetPasswordActivity.class);
                 startActivity(intent);
                 LoginActivity.instance.finish();
             }
@@ -65,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     api.join();
                     String api_string = api.get_Values();
-                    System.out.println(api_string);
+
                     JSONObject api_json = new JSONObject(api_string);
 
                     if (api_json.getString("login").equals("true")){

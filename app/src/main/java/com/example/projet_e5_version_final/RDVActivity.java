@@ -35,7 +35,6 @@ public class RDVActivity extends AppCompatActivity {
         this.id = intent.getStringExtra("id");
         this.type = intent.getStringExtra("type");
         this.key = intent.getStringExtra("key");
-        System.out.println(key);
         if (key != null){
             try {
                 SearchView searchView = findViewById(R.id.sv_rechercher_rdv);
@@ -84,12 +83,12 @@ public class RDVActivity extends AppCompatActivity {
 
         if (json_array.length() > 0){
             ListView list_res = findViewById(R.id.list_res);
-            BaseAdapter adapter_res = new AdaptaterRDV(this,json_array);
+            BaseAdapter adapter_res = new AdaptaterRDV(this,json_array,id);
             list_res.setAdapter(adapter_res);
         }else {
             ListView list_res = findViewById(R.id.list_res);
             JSONArray json = new JSONArray("[{\"id\":\"1\",\"first_name\":\"Aucune\",\"last_name\":\"RDV trouver\",\"specialty\":\"null\",\"phone_number\":\"null\",\"email\":\"null\",\"office_address\":\"null\",\"password\":\"Jiojio000608.\"}]");
-            BaseAdapter adapter_res = new AdaptaterRDV(this,json);
+            BaseAdapter adapter_res = new AdaptaterRDV(this,json,id);
             list_res.setAdapter(adapter_res);
             Toast.makeText(this, "null", Toast.LENGTH_SHORT).show();
         }
@@ -116,12 +115,12 @@ public class RDVActivity extends AppCompatActivity {
 
         if (json_array.length() > 0){
             ListView list_res = findViewById(R.id.list_res);
-            BaseAdapter adapter_res = new AdaptaterRDV(this,json_array);
+            BaseAdapter adapter_res = new AdaptaterRDV(this,json_array,id);
             list_res.setAdapter(adapter_res);
         }else {
             ListView list_res = findViewById(R.id.list_res);
             JSONArray json = new JSONArray("[{\"id\":\"1\",\"first_name\":\"Aucune\",\"last_name\":\"RDV trouver\",\"specialty\":\"null\",\"phone_number\":\"null\",\"email\":\"null\",\"office_address\":\"null\",\"password\":\"Jiojio000608.\"}]");
-            BaseAdapter adapter_res = new AdaptaterRDV(this,json);
+            BaseAdapter adapter_res = new AdaptaterRDV(this,json,id);
             list_res.setAdapter(adapter_res);
             Toast.makeText(this, "null", Toast.LENGTH_SHORT).show();
         }

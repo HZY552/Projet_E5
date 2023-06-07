@@ -57,11 +57,20 @@ public class MonCompteActivity extends AppCompatActivity {
         api.join();
 
         JSONObject json_obj = new JSONObject(api.get_Values());
+        System.out.println(json_obj);
 
-        ed_nom.setText(json_obj.getString("first_name"));
-        ed_address.setText(json_obj.getString("address"));
-        ed_tele.setText(json_obj.getString("phone_number"));
-        ed_date.setText(json_obj.getString("birthdate"));
+        if (type.equals("patient")){
+            ed_nom.setText(json_obj.getString("first_name"));
+            ed_address.setText(json_obj.getString("address"));
+            ed_tele.setText(json_obj.getString("phone_number"));
+            ed_date.setText(json_obj.getString("email"));
+        }else{
+            ed_nom.setText(json_obj.getString("first_name"));
+            ed_address.setText(json_obj.getString("office_address"));
+            ed_tele.setText(json_obj.getString("phone_number"));
+            ed_date.setText(json_obj.getString("email"));
+        }
+
 
         button_change = findViewById(R.id.btn_change_mc);
         button_change.setOnClickListener(new View.OnClickListener() {
@@ -80,30 +89,72 @@ public class MonCompteActivity extends AppCompatActivity {
                 String new_tele = String.valueOf(ed_tele.getText());
                 String new_date = String.valueOf(ed_date.getText());
 
-                String values = "{first_name:" + new_nom
-                        + ",address:" + new_address
-                        + ",phone_number:" + new_tele
-                        + ",birthdate:" + new_date
-                        + ",type:" + type
-                        + ",id:" + id
-                        + "}";
+                if (type.equals("patient")){
+                    String values = "{first_name:" + new_nom
+                            + ",address:" + new_address
+                            + ",phone_number:" + new_tele
+                            + ",email:" + new_date
+                            + ",type:" + type
+                            + ",id:" + id
+                            + "}";
 
-                ArrayList<String> listValues = new ArrayList<>(Arrays.asList("update_user_info", "None", "Jiojio000608.", values));
+                    ArrayList<String> listValues = new ArrayList<>(Arrays.asList("update_user_info", "None", "Jiojio000608.", values));
 
-                Api api = new Api(listValues);
+                    Api api = new Api(listValues);
 
-                api.start();
+                    api.start();
 
-                try {
-                    api.join();
-                    String res = api.get_Values();
-                    JSONObject json_obj = new JSONObject(res);
-                    Toast.makeText(MonCompteActivity.this,json_obj.getString("response"), Toast.LENGTH_SHORT).show();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
+                    try {
+                        api.join();
+                        String res = api.get_Values();
+                        JSONObject json_obj = new JSONObject(res);
+                        if (json_obj.getString("response").equals("true")){
+                            Toast.makeText(MonCompteActivity.this,json_obj.getString("response"), Toast.LENGTH_SHORT).show();
+                            get_user_info();
+                        }else{
+                            Toast.makeText(MonCompteActivity.this,json_obj.getString("response"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }else{
+                    String values = "{first_name:" + new_nom
+                            + ",office_address:" + new_address
+                            + ",phone_number:" + new_tele
+                            + ",email:" + new_date
+                            + ",type:" + type
+                            + ",id:" + id
+                            + "}";
+
+                    ArrayList<String> listValues = new ArrayList<>(Arrays.asList("update_user_info", "None", "Jiojio000608.", values));
+
+                    Api api = new Api(listValues);
+
+                    api.start();
+                    try {
+                        api.join();
+                        String res = api.get_Values();
+                        JSONObject json_obj = new JSONObject(res);
+                        if (json_obj.getString("response").equals("true")){
+                            Toast.makeText(MonCompteActivity.this,json_obj.getString("response"), Toast.LENGTH_SHORT).show();
+                            get_user_info();
+                        }else{
+                            Toast.makeText(MonCompteActivity.this,json_obj.getString("response"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
+
+
+
+
+
+
 
 
             }

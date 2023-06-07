@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 drawerLayout.closeDrawer(GravityCompat.START);
-                System.out.println(item.getTitle());
+
                 if(item.getTitle().equals("SE CONNECTER ")){
                     Intent intent_login = new Intent();
                     intent_login.setClass(MainActivity.this,LoginActivity.class);
@@ -104,11 +104,28 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if(item.getTitle().equals("RDV")){
-                    Intent intent_rdv = new Intent();
-                    intent_rdv.putExtra("id",id);
-                    intent_rdv.putExtra("type",type);
-                    intent_rdv.setClass(MainActivity.this,RDVActivity.class);
-                    startActivity(intent_rdv);
+                    if (type.equals("patient")){
+                        Intent intent_rdv = new Intent();
+                        intent_rdv.putExtra("id",id);
+                        intent_rdv.putExtra("type",type);
+                        intent_rdv.setClass(MainActivity.this,RDVActivity.class);
+                        startActivity(intent_rdv);
+                    }else{
+                        Intent intent_rdv_doctor = new Intent();
+                        intent_rdv_doctor.putExtra("id",id);
+                        intent_rdv_doctor.putExtra("type",type);
+                        intent_rdv_doctor.setClass(MainActivity.this,DoctorsRDVActivity.class);
+                        startActivity(intent_rdv_doctor);
+                    }
+
+                }
+
+                if(item.getTitle().equals("Messages")){
+                    Intent intent_message = new Intent();
+                    intent_message.putExtra("id",id);
+                    intent_message.putExtra("type",type);
+                    intent_message.setClass(MainActivity.this,MessageActivity.class);
+                    startActivity(intent_message);
                 }
 
                 if (item.getTitle().equals("Log Out")){
@@ -138,7 +155,9 @@ public class MainActivity extends AppCompatActivity {
             LoginActivity.instance.finish();
             try {
                 change_title(navigationView);
-                show_historique();
+                if (type.equals("patient")){
+                    show_historique();
+                }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             } catch (JSONException e) {
@@ -177,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
         api.join();
 
         JSONArray jsonArray = new JSONArray(api.get_Values());
+
         if (jsonArray.length() > 0){
             ListView list_View_historique = findViewById(R.id.list_historique);
             if (jsonArray.length() > 2){

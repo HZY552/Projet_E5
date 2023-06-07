@@ -18,7 +18,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class Api extends Thread{
 
-    private String url_api,url_server = "https://www.zeyu.site/api/api.php";
+    private String url_api,url_server = "http://192.168.0.10/api/api.php";
 
     private String Token = "S8jlgW4doHq1Lh9mfqSu6Q";
 

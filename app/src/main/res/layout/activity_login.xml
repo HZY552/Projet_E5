@@ -39,7 +39,7 @@
             android:hint="@string/app_email"
             android:inputType="textPersonName"
             android:minHeight="48dp"
-            android:text="houzeyu7@gmail.com"
+            android:text="houzeyu77@gmail.com"
             android:textColorHint="#78909C"
             tools:ignore="TextContrastCheck,TextFields" />
 
@@ -71,7 +71,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/tv_mdp_oublie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"

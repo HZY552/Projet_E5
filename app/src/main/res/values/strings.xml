@@ -52,4 +52,22 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="app_choisissez_votre_carrière">choisissez votre carrière</string>
+    <string name="title_activity_reset_password">ResetPasswordActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="app_vérifierlecourriel">Vérifier Le Courriel</string>
+    <string name="check_phone">Quatre derniers chiffres du numéro de téléphone</string>
+    <string name="app_confirmer">Confirmer</string>
+    <string name="new_mail">Nouveau Courrier</string>
+    <string name="app_voir">Afficher Les Informations</string>
+    <string name="app_supprimer">Supprimer</string>
+    <string name="app_messages">Mes Messages</string>
+    <string name="app_title">Title</string>
+    <string name="app_envoyer">Envoyer</string>
 </resources>

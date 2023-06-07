@@ -15,4 +15,13 @@
         <!-- Customize your theme here. -->
 
     </style>
+
+    <style name="Theme.Projet_E5_version_final.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Projet_E5_version_final.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Projet_E5_version_final.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

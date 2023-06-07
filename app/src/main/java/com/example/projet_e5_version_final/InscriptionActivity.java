@@ -137,7 +137,7 @@ public class InscriptionActivity extends AppCompatActivity {
 
                             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-                            transaction.replace(R.id.fragment_container, new inscription_fragment());
+                            transaction.replace(R.id.fragment_container, new inscription_fragment(email));
 
                             // Commit the transaction.
                             transaction.commit();

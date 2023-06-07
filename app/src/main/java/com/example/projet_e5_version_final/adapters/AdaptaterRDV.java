@@ -1,6 +1,7 @@
 package com.example.projet_e5_version_final.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.projet_e5_version_final.R;
 import com.example.projet_e5_version_final.RDVActivity;
+import com.example.projet_e5_version_final.RdvDetaileActivity;
 import com.example.projet_e5_version_final.services.Api;
 
 import org.json.JSONArray;
@@ -32,12 +34,14 @@ public class AdaptaterRDV extends BaseAdapter {
     private Context context;
 
     private LayoutInflater inflater;
+    private String id_patient;
     private String doctor_id;
     private String res_rdv;
 
 
 
-    public AdaptaterRDV(Context context,JSONArray jsonarray){
+    public AdaptaterRDV(Context context,JSONArray jsonarray,String id_patient){
+        this.id_patient = id_patient;
         this.context = context;
         this.jsonarray = jsonarray;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -99,7 +103,6 @@ public class AdaptaterRDV extends BaseAdapter {
         ListView list_main = view.findViewById(R.id.list_res);
 
         String values = "{doctor_email:" + email + "}";
-        System.out.println(values);
         ArrayList<String> listValues = new ArrayList<>(Arrays.asList("get_rdv_By_doctor_email", "None", "Jiojio000608.", values));
         Api api = new Api(listValues);
 
@@ -144,7 +147,18 @@ public class AdaptaterRDV extends BaseAdapter {
             throw new RuntimeException(e);
         }
 
-
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TextView rdv_email = view.findViewById(R.id.rdv_email);
+                String email = (String) rdv_email.getText();
+                Intent intent_rdv_detail = new Intent();
+                intent_rdv_detail.putExtra("email",email);
+                intent_rdv_detail.putExtra("id",id_patient);
+                intent_rdv_detail.setClass(context, RdvDetaileActivity.class);
+                context.startActivity(intent_rdv_detail);
+            }
+        });
 
 
 
