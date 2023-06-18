@@ -70,4 +70,5 @@
     <string name="app_messages">Mes Messages</string>
     <string name="app_title">Title</string>
     <string name="app_envoyer">Envoyer</string>
+    <string name="title_activity_test">TestActivity</string>
 </resources>

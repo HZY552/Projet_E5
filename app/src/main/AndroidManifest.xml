@@ -16,6 +16,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".TestActivity"
+            android:exported="false"
+            android:label="@string/title_activity_test"
+            android:theme="@style/Theme.Projet_E5_version_final" />
+        <activity
             android:name=".RdvDetaileActivity"
             android:exported="false" />
         <activity

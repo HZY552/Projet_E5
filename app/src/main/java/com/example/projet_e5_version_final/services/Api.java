@@ -54,7 +54,9 @@ public class Api extends Thread{
 
             connection.connect();
             code_reponse = connection.getResponseCode();
+            // 200 bon 404 trouver pas le url ou le fichier 403 pas de permission!
             if (code_reponse == 200){
+
                 reader_in = new BufferedReader(new InputStreamReader(
                         connection.getInputStream()
                 ));

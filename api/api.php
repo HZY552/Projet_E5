@@ -108,6 +108,8 @@ class api{
             }
         }else{
             if (password_verify($this->obj_url->values["password"],$res_doctors["password"])){
+                $res_doctors["type"] = "doctor";
+                $res_doctors["login"] = "true";
                 $res_doctors["type"] = "docteur";
                 echo json_encode($res_doctors);
             }else{
@@ -221,7 +223,7 @@ class api{
         $res_patients = $stmt_patients->fetch(PDO::FETCH_ASSOC);
         $res_doctor = $stmt_doctors->fetch(PDO::FETCH_ASSOC);
 
-        if (count($res_patients) > 0){
+        if ($res_patients){
             $res_patients["type"] = "patient";
             echo json_encode($res_patients);
         }else{
@@ -303,12 +305,12 @@ class api{
     //{type:patient,email:sophiabrown@example.com,first_name:hou,last_name:zeyu,birthdate:1997-05-12,,phone_number:000122333,address:3333333}
     public function update_user_info(){
         if ($this->obj_url->values["type"] === "patient"){
-            $sql = "UPDATE patients SET first_name = :first_name,last_name = :last_name,birthdate = :birthdate,phone_number = :phone_number,address = :address WHERE id = :id";
+            $sql = "UPDATE patients SET first_name = :first_name,last_name = :last_name,email = :email,phone_number = :phone_number,address = :address WHERE id = :id";
             $stmt = $this->conn->prepare($sql);
 
             $stmt->bindParam("first_name",$this->obj_url->values["first_name"]);
             $stmt->bindParam("last_name",$this->obj_url->values["last_name"]);
-            $stmt->bindParam("birthdate",$this->obj_url->values["birthdate"]);
+            $stmt->bindParam("email",$this->obj_url->values["email"]);
             $stmt->bindParam("phone_number",$this->obj_url->values["phone_number"]);
             $stmt->bindParam("address",$this->obj_url->values["address"]);
             $stmt->bindParam("id",$this->obj_url->values["id"]);
@@ -339,51 +341,21 @@ class api{
 
     //{id_patient:11}
     public function find_historique_By_patientId(){
+        $sql = "SELECT doctors.first_name,doctors.specialty,doctors.last_name,doctors.office_address,available_from,available_to,specialty.specialty 
+                    FROM doctor_availabilities JOIN doctors ON doctors.id = doctor_availabilities.doctor_id 
+                        JOIN specialty ON doctors.specialty = specialty.id
+                            WHERE doctor_availabilities.available_from < NOW() AND doctor_availabilities.patient_id = :id_patient";
 
-        $sql_appointments = "SELECT doctor_availability_id FROM appointments WHERE patient_id = :id_patient";
-        $stmt_appointments = $this->conn->prepare($sql_appointments);
-        $stmt_appointments->bindParam("id_patient",$this->obj_url->values["id_patient"]);
-        $stmt_appointments->execute();
-        $res_appointments = $stmt_appointments->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $this->conn->prepare($sql);
 
-        $string_doctor_availability_id = "";
-        foreach ($res_appointments as $ra){
-            $string_doctor_availability_id = $string_doctor_availability_id . $ra["doctor_availability_id"] . ",";
-        }
-        $string_doctor_availability_id_res = rtrim($string_doctor_availability_id,",");
+        $stmt->bindParam("id_patient",$this->obj_url->values["id_patient"]);
 
-        $sql_doctor_availabilities = "SELECT doctor_id FROM doctor_availabilities WHERE id IN ($string_doctor_availability_id_res)";
-        $stmt_doctor_availabilities = $this->conn->prepare($sql_doctor_availabilities);
-        $stmt_doctor_availabilities->execute();
-        $res_doctor_availabilities_id = $stmt_doctor_availabilities->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->execute();
 
-        $array_final = [];
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach ($res_doctor_availabilities_id as $doc_id => $key){
+        echo json_encode($res);
 
-            $sql_date = "SELECT available_from,available_to FROM doctor_availabilities WHERE id = " . $res_appointments[$doc_id]["doctor_availability_id"];
-
-            $stmt_date = $this->conn->prepare($sql_date);
-            $stmt_date->execute();
-            $res_date = $stmt_date->fetchAll(PDO::FETCH_ASSOC);
-
-            $sql_doc = "SELECT first_name,last_name,office_address,phone_number,email,specialty FROM doctors WHERE id = " . $key["doctor_id"];
-            $stmt_doc = $this->conn->prepare($sql_doc);
-            $stmt_doc->execute();
-            $res_doc = $stmt_doc->fetchAll(PDO::FETCH_ASSOC);
-
-            $res_doc[0]["available_from"] = $res_date[0]["available_from"];
-            $res_doc[0]["available_to"] = $res_date[0]["available_to"];
-
-            array_push($array_final,$res_doc[0]);
-        }
-
-
-        echo json_encode($array_final);
-
-
-
-        //echo json_encode($res_doctor_availabilities_id);
     }
 
     public function inscription() {
@@ -473,8 +445,443 @@ class api{
 
     }
 
-}
+    public function find_doctors_By_key(){
+        $sql = "SELECT doctors.first_name,doctors.last_name,doctors.email,doctors.phone_number,doctors.office_address,specialty.specialty 
+                    FROM doctors JOIN specialty ON specialty.id = doctors.specialty
+                        WHERE doctors.first_name LIKE :key OR doctors.last_name LIKE :key OR specialty.specialty LIKE :key";
 
+        $stmt = $this->conn->prepare($sql);
+        $key = "%" . $this->obj_url->values["key"] ."%";
+
+        $stmt->bindParam("key",$key);
+
+        $stmt->execute();
+
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode($res);
+    }
+
+    public function get_rdv_By_doctor_email(){
+
+        $sql = "SELECT doctor_availabilities.id,doctors.first_name,doctors.last_name,specialty.specialty,doctors.office_address,doctors.email,doctor_availabilities.available_from,doctor_availabilities.available_to 
+                    FROM doctors JOIN doctor_availabilities ON doctors.id = doctor_availabilities.doctor_id 
+                        JOIN specialty ON specialty.id = doctors.specialty
+                            WHERE doctors.email = :email AND doctor_availabilities.patient_id IS NULL";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindParam(":email",$this->obj_url->values["doctor_email"]);
+
+        $stmt->execute();
+
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode($res);
+    }
+
+    public function get_specialty(){
+        $sql = "SELECT specialty FROM specialty";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->execute();
+
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode($res);
+    }
+
+    public function get_specialty_id(){
+        $sql = "SELECT id FROM specialty WHERE specialty = :specialty";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':specialty',$this->obj_url->values["specialty"]);
+        $stmt->execute();
+
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        echo json_encode($res);
+    }
+
+    public function set_specialty(){
+        $sql = "UPDATE doctors set specialty = :id WHERE email = :email";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':email',$this->obj_url->values["email"]);
+        $stmt->bindParam(':id',$this->obj_url->values["id"]);
+
+        echo json_encode($stmt->execute());
+    }
+
+    //{email:houzeyu7@gmail.com,phone:0695887744}
+    public function check_user_phone_email(){
+        $sql_patients = "SELECT * FROM patients WHERE email = :email";
+        $sql_doctors = "SELECT * FROM doctors WHERE email = :email";
+
+        $stmt_patients = $this->conn->prepare($sql_patients);
+        $stmt_doctors = $this->conn->prepare($sql_doctors);
+
+        $stmt_patients->bindParam(':email',$this->obj_url->values["email"]);
+        $stmt_doctors->bindParam(':email',$this->obj_url->values["email"]);
+
+        $stmt_patients->execute();
+        $stmt_doctors->execute();
+
+        $res_patients = $stmt_patients->fetch(PDO::FETCH_ASSOC);
+        $res_doctor = $stmt_doctors->fetch(PDO::FETCH_ASSOC);
+        if ($res_patients){
+            $sql_check_patient = "SELECT id FROM patients WHERE SUBSTRING(phone_number, -4) = :phone";
+            $stmt_check_patients = $this->conn->prepare($sql_check_patient);
+            $stmt_check_patients->bindParam("phone",$this->obj_url->values["phone"]);
+            $stmt_check_patients->execute();
+            $user_id = $stmt_check_patients->fetch(PDO::FETCH_ASSOC);
+            if ($user_id){
+                $user_id["type"] = "patients";
+                echo json_encode($user_id);
+            }else{
+                $message = [
+                    "id" => $user_id
+                ];
+                echo json_encode($message);
+            }
+
+        }else{
+            $sql_check_doctor = "SELECT id FROM doctors WHERE SUBSTRING(phone_number, -4) = :phone";
+            $stmt_check_doctors = $this->conn->prepare($sql_check_doctor);
+            $stmt_check_doctors->bindParam("phone",$this->obj_url->values["phone"]);
+            $stmt_check_doctors->execute();
+            $user_id = $stmt_check_doctors->fetch(PDO::FETCH_ASSOC);
+            if ($user_id){
+                $user_id["type"] = "doctors";
+                echo json_encode($user_id);
+            }else{
+                $message = [
+                    "id" => $user_id
+                ];
+                echo json_encode($message);
+            }
+        }
+    }
+
+    public function update_password_By_userId(){
+        $type = $this->obj_url->values["type"];
+
+        $sql = "UPDATE " .$type . " SET password = :password WHERE id = :id";
+
+        $stmt = $this->conn->prepare($sql);
+        $password_hash = password_hash($this->obj_url->values["password"], PASSWORD_DEFAULT);
+        $stmt->bindParam("password",$password_hash);
+        $stmt->bindParam("id",$this->obj_url->values["id"]);
+
+
+        $message = [
+            "res" => $stmt->execute()
+        ];
+
+        echo json_encode($message);
+    }
+
+    // {id:patient_id}
+    public function get_message_patient(){
+
+        $sql = "SELECT message.*,doctors.first_name,doctors.last_name FROM message 
+                    JOIN doctors ON message.id_doctor = doctors.id 
+                        WHERE message.id_patient = :id_patient";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam("id_patient",$this->obj_url->values["id_patient"]);
+
+        $stmt->execute();
+
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode($res);
+    }
+
+    public function get_message_doctor(){
+
+        $sql = "SELECT message.*,patients.first_name,patients.last_name FROM message 
+                    JOIN patients ON message.id_patient = patients.id 
+                        WHERE message.id_doctor = :id_doctor";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam("id_doctor",$this->obj_url->values["id_doctor"]);
+
+        $stmt->execute();
+
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode($res);
+    }
+
+    public function get_message_patient_by_etat(){
+        $sql = "SELECT message.*,doctors.first_name,doctors.last_name FROM message 
+                    JOIN doctors ON message.id_doctor = doctors.id 
+                        WHERE message.id_patient = :id_patient AND message.etat = :etat";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam("id_patient",$this->obj_url->values["id_patient"]);
+        $stmt->bindParam("etat",$this->obj_url->values["etat"]);
+        $stmt->execute();
+
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode($res);
+    }
+
+    public function get_message_doctor_by_etat(){
+        $sql = "SELECT message.*,patients.first_name,patients.last_name FROM message 
+                    JOIN patients ON message.id_patient = patients.id 
+                        WHERE message.id_doctor = :id_doctor AND message.etat = :etat";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam("id_doctor",$this->obj_url->values["id_doctor"]);
+        $stmt->bindParam("etat",$this->obj_url->values["etat"]);
+        $stmt->execute();
+
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode($res);
+    }
+
+    public function get_message_patient_orderBy_time(){
+        $sql = "SELECT message.*,doctors.first_name,doctors.last_name FROM message 
+                    JOIN doctors ON message.id_doctor = doctors.id 
+                        WHERE message.id_patient = :id_patient 
+                        ORDER BY message.date_public DESC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam("id_patient",$this->obj_url->values["id_patient"]);
+        $stmt->execute();
+
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode($res);
+    }
+
+    public function get_message_doctor_orderBy_time(){
+        $sql = "SELECT message.*,patients.first_name,patients.last_name FROM message 
+                    JOIN patients ON message.id_patient = patients.id 
+                        WHERE message.id_doctor = :id_doctor 
+                        ORDER BY message.date_public DESC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam("id_doctor",$this->obj_url->values["id_doctor"]);
+        $stmt->execute();
+
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode($res);
+    }
+
+    public function get_message_patient_By_sender(){
+        $sql = "SELECT message.*,doctors.first_name,doctors.last_name FROM message 
+                    JOIN doctors ON message.id_doctor = doctors.id 
+                        WHERE message.id_patient = :id_patient AND message.sender = :sender";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam("id_patient",$this->obj_url->values["id_patient"]);
+        $stmt->bindParam("sender",$this->obj_url->values["sender"]);
+        $stmt->execute();
+
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode($res);
+    }
+
+    public function get_message_doctor_By_sender(){
+        $sql = "SELECT message.*,patients.first_name,patients.last_name FROM message 
+                    JOIN patients ON message.id_patient = patients.id 
+                        WHERE message.id_doctor = :id_doctor AND message.sender = :sender";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam("id_doctor",$this->obj_url->values["id_doctor"]);
+        $stmt->bindParam("sender",$this->obj_url->values["sender"]);
+        $stmt->execute();
+
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode($res);
+    }
+
+    public function get_message_details() {
+        $sql = "SELECT message.*, doctors.first_name AS doctor_first_name, doctors.last_name AS doctor_last_name, patients.first_name AS patient_first_name, patients.last_name AS patient_last_name 
+            FROM message
+            JOIN doctors ON message.id_doctor = doctors.id
+            JOIN patients ON message.id_patient = patients.id
+            WHERE message.id = :id";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam("id", $this->obj_url->values["id"]);
+        $stmt->execute();
+
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        echo json_encode($res);
+    }
+
+    public function set_message_lu(){
+        $sql = "UPDATE message SET etat = 1 WHERE id = :id";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam("id", $this->obj_url->values["id"]);
+        echo json_encode($stmt->execute());
+    }
+
+    public function send_message_patient()
+    {
+        $sql = "INSERT INTO message (`title`, `contenu`, `id_patient`, `id_doctor`, `date_public`, `etat`, `last_review`, `sender`) 
+            SELECT :title, :contenu, :id_patient, doctors.id, NOW(), '0', NOW(), '0' FROM doctors WHERE doctors.email = :mail";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":title", $this->obj_url->values["obj"]);
+        $stmt->bindParam(":contenu", $this->obj_url->values["contenu"]);
+        $stmt->bindParam(":id_patient", $this->obj_url->values["id_patient"]);
+        $stmt->bindParam(":mail", $this->obj_url->values["email"]);
+        $message = [
+            'message' => $stmt->execute()
+        ];
+        echo json_encode($message);
+    }
+
+    public function send_message_doctor()
+    {
+        $sql = "INSERT INTO message (`title`, `contenu`, `id_patient`, `id_doctor`, `date_public`, `etat`, `last_review`, `sender`) 
+            SELECT :title, :contenu, patients.id, :id_doctor, NOW(), '0', NOW(), '0' FROM patients WHERE patients.email = :mail";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":title", $this->obj_url->values["obj"]);
+        $stmt->bindParam(":contenu", $this->obj_url->values["contenu"]);
+        $stmt->bindParam(":id_doctor", $this->obj_url->values["id_doctor"]);
+        $stmt->bindParam(":mail", $this->obj_url->values["email"]);
+        $message = [
+            'message' => $stmt->execute()
+        ];
+        echo json_encode($message);
+    }
+
+    public function get_all_rdvByDoctorID(){
+        $sql = "SELECT doctor_availabilities.*, patients.first_name, patients.last_name,patients.email
+                FROM doctor_availabilities 
+                LEFT JOIN patients ON doctor_availabilities.patient_id = patients.id  
+                WHERE doctor_availabilities.doctor_id = :id";
+
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":id",$this->obj_url->values["id"]);
+
+        $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($res);
+    }
+
+    public function get_all_rdvByDoctorID_passe(){
+        $sql = "SELECT doctor_availabilities.*, patients.first_name, patients.last_name,patients.email
+                FROM doctor_availabilities 
+                LEFT JOIN patients ON doctor_availabilities.patient_id = patients.id  
+                WHERE doctor_availabilities.doctor_id = :id AND doctor_availabilities.available_from < NOW()";
+
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":id",$this->obj_url->values["id"]);
+
+        $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($res);
+    }
+
+    public function get_all_rdvByDoctorID_future(){
+        $sql = "SELECT doctor_availabilities.*, patients.first_name, patients.last_name,patients.email
+                FROM doctor_availabilities 
+                LEFT JOIN patients ON doctor_availabilities.patient_id = patients.id  
+                WHERE doctor_availabilities.doctor_id = :id AND doctor_availabilities.available_from > NOW()";
+
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":id",$this->obj_url->values["id"]);
+
+        $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($res);
+    }
+
+    //{id:id_doctor ou id_patient}
+    public function get_rdv_Byid(){
+        $sql = "SELECT doctor_availabilities.* FROM doctor_availabilities WHERE id = :id;";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":id",$this->obj_url->values["id"]);
+
+        $stmt->execute();
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
+        if(!empty($res['patient_id'])){
+            $sql = "SELECT doctor_availabilities.*, patients.* FROM doctor_availabilities 
+                LEFT JOIN patients ON doctor_availabilities.patient_id = patients.id  
+                WHERE doctor_availabilities.id = :id";
+
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(":id",$this->obj_url->values["id"]);
+
+            $stmt->execute();
+            $res = $stmt->fetch(PDO::FETCH_ASSOC);
+            echo json_encode($res);
+        }else{
+            echo json_encode($res);
+        }
+    }
+
+    public function delete_rdv_Byid(){
+        $sql = "DELETE FROM doctor_availabilities WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":id",$this->obj_url->values["id"]);
+
+
+        echo json_encode($stmt->execute());
+    }
+
+    public function add_rdv(){
+        $sql = "INSERT INTO doctor_availabilities (doctor_id, available_from, available_to, patient_id) VALUES (?, ?, ?, null)";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindParam(1, $this->obj_url->values["doctor_id"]);
+        $stmt->bindParam(2, $this->obj_url->values["available_from"]);
+        $stmt->bindParam(3, $this->obj_url->values["available_to"]);
+
+        echo json_encode($stmt->execute());
+    }
+
+    public function get_all_rdvDisponibleBydoctorEmail(){
+        $sql = "SELECT doctor_availabilities.* FROM doctors 
+                    JOIN doctor_availabilities ON doctors.id = doctor_availabilities.doctor_id 
+                    WHERE doctors.email = :email AND doctor_availabilities.patient_id IS NULL";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindParam("email", $this->obj_url->values["email"]);
+
+        $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($res);
+    }
+
+    public function get_doctor(){
+        $sql = "SELECT doctors.*,specialty.specialty FROM doctors JOIN specialty ON doctors.specialty = specialty.id WHERE doctors.email = :email";
+
+        $stmt = $this->conn->prepare($sql);
+        $test = "raffi@gmail.com";
+        $stmt->bindParam(":email", $test);
+
+        $stmt->execute();
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        echo json_encode($res);
+    }
+
+    public function update_rdv(){
+        $sql = "UPDATE doctor_availabilities SET patient_id = :id_patient WHERE id = :id_rdv";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindParam(":id_patient", $this->obj_url->values['id_patient']);
+        $stmt->bindParam(":id_rdv", $this->obj_url->values['id_rdv']);
+
+        echo json_encode($stmt->execute());
+    }
+}
 
 class ObjArray {
     public $function_name;

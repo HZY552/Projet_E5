@@ -128,6 +128,14 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent_message);
                 }
 
+                if(item.getTitle().equals("PARAMETRES")){
+                    Intent intent_message = new Intent();
+                    intent_message.putExtra("id",id);
+                    intent_message.putExtra("type",type);
+                    intent_message.setClass(MainActivity.this,TestActivity.class);
+                    startActivity(intent_message);
+                }
+
                 if (item.getTitle().equals("Log Out")){
 
                     //menu
